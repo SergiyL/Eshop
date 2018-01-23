@@ -1,0 +1,86 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse flex-column row" id="navbarSupportedContent">
+    <ul class="navbar-nav">
+        <a class="navbar-brand" routerLink="/"><i class="fa fa-shopping-basket fa-3x" style="color: red" aria-hidden="true"></i></a>
+        <li class="nav-item active">
+            <a href="#" class="nav-link">
+                Акція <i class="fa fa-percent" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="nav-item active">
+            <a href="#" class="nav-link">
+                Доставка <i class="fa fa-truck" aria-hidden="true"></i>
+            </a>
+        </li>
+        <li class="nav-item active">
+            <a routerLink="/shoping-cart" class="nav-link">
+                Кошик <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+            </a>
+        </li>
+        <div class="btn-group-sm lang" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-secondary">UA</button>
+            <button type="button" class="btn btn-secondary">EN</button>
+        </div>
+    </ul>
+
+    <ul class="navbar-nav flex-row">
+        <div ngbDropdown class="d-inline-block dropdown">
+            <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+                <i class="fa fa-bars" aria-hidden="true" ></i>  Каталог</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1" >
+                <button class="dropdown-item" *ngFor="let item of categories$ | async">{{ item.name }}</button>
+            </div>
+        </div>
+
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Пошук" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+        </form>
+
+        <li class="nav-item active login">
+          <ng-template #anonymousUser>
+              <a class="nav-link">
+                <i class="fas fa-user fa-2x"></i>    <!-- виклик дропдауна реєстрації/входу-->
+              </a>
+              <div class="dropdown-content">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Email" value="" type="text" [(ngModel)]="authServ.user.email" name="email">
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Password" value="" type="password" [(ngModel)]="authServ.user.password" name="password">
+                </mat-form-field>
+                
+                <button mat-raised-button style="width:49%" (click)="loginEmail()">Увійти</button>
+                <button mat-raised-button style="width:49%" (click)="createUser()">Зареєструватися</button>
+  
+                <p></p>
+  
+                <button (click)="loginGoogle()" mat-raised-button 
+                  style="background-color:rgb(219, 50, 54); color: white; width:49%; padding-left:10px">
+                  <i class="fab fa-google-plus-g fa-lg"></i> Увійти з Google</button>
+  
+                <button (click)="loginFacebook()" mat-raised-button 
+                  style="background-color:rgb(59, 89, 152); color: white; width:49%; padding-left:10px">
+                  <i class="fab fa-facebook-f"></i> Увійти з Facebook</button>
+                
+              </div>
+          </ng-template>
+
+            
+           
+            <div ngbDropdown class="d-inline-block" *ngIf="authServ.user$ | async as user; else anonymousUser">
+                <a class="nav-item active nav-link" id="dropdownBasic1" ngbDropdownToggle>
+                    {{ user.displayName }}</a>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <button class="dropdown-item" (click)="logout()">Вийти <i class="fas fa-sign-out-alt"></i></button>
+                  <button class="dropdown-item" routerLink="/admin/products">Редагувати каталог <i class="fas fa-edit"></i></button>
+                </div>
+            </div>
+        </li>
+    </ul>
+  </div>
+</nav>

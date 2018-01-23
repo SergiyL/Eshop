@@ -1,0 +1,31 @@
+.lang {
+    margin-left: 45rem;
+}
+nav {
+    padding-left: 20%;
+    padding-right: 20%;
+    margin-bottom: 20px
+}
+.dropdown {
+    margin-right: 11rem;
+}
+.login {
+    margin-left: 28rem;
+}
+.dropdown-content {
+    display: none;
+    position: absolute !important;
+    padding: 10px;
+    background-color: rgb(241, 233, 233);
+    z-index:5;
+    margin-left: -131px;
+    border-radius: 2px;
+    height: auto;
+    width: 320px;
+}
+.example-full-width {
+    width: 100%;
+}
+.login:hover .dropdown-content {
+    display: block;
+}
