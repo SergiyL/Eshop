@@ -42,8 +42,8 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatStepperModule,
-  
 } from '@angular/material';
+import { CustomFormsModule } from 'ng2-validation';
 
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -72,14 +72,16 @@ import { AdminProductsComponent } from './admin/admin-products/admin-products.co
     MatButtonModule, 
     MatCheckboxModule,
     RouterModule.forRoot([
-      { path: 'admin/products', component: AdminProductsComponent },
       { path: 'admin/products/new', component: ProductFormComponent },
+      { path: 'admin/products/:id', component: ProductFormComponent },
+      { path: 'admin/products', component: AdminProductsComponent },
+
     ]),
     HttpModule,
     ReactiveFormsModule,
     FormsModule,
-    MatInputModule
-    
+    MatInputModule,
+    CustomFormsModule
   ],
   exports: [
     MatButtonModule, 
@@ -122,7 +124,8 @@ import { AdminProductsComponent } from './admin/admin-products/admin-products.co
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    NavbarComponent
+    NavbarComponent,
+    AdminProductsComponent
   ]
 })
 export class AppModule { }

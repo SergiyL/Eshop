@@ -1,1 +1,24 @@
 <a routerLink="/admin/products/new" class="btn btn-primary">Додати продукт</a>
+<p></p>
+<mat-form-field class="example-full-width">
+    <input #prod (keyup)="filterProduct(prod.value)"
+        matInput placeholder="Пошук...">
+</mat-form-field>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Ціна</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of filteredProducts">
+            <td>{{ item.title }}</td>
+            <td>{{ item.price }}</td>
+            <td>
+                <a [routerLink]="['/admin/products/', item.$key]">Редагувати</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

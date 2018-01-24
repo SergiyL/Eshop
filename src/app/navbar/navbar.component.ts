@@ -10,7 +10,7 @@ import { AuthenticationService } from '../services/authentication.service';
 export class NavbarComponent implements OnInit {
   categories$;
 
-  constructor(private authServ: AuthenticationService,
+  constructor(public authServ: AuthenticationService,
               private loadDataServ: LoadDataService) {
               this.categories$ = loadDataServ.getData();
               

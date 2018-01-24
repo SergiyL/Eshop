@@ -1,49 +1,84 @@
-<form #f="ngForm" (ngSubmit)="save(f.value)">
-    <div class="form-group">
-        <label for="Title">Назва товару</label>
-        <input id="title" type="text" class="form-control" ngModel name="title" required #title="ngModel">
-    </div>
-
-    <label for="price">Ціна</label>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text">$</span>
-        </div>
-        <input id="price" type="number" class="form-control" aria-label="Amount (to the nearest dollar)" ngModel name="price" required #price="ngModel">
-        <div class="input-group-append">
-            <span class="input-group-text">.00</span>
-        </div>
-    </div>
-    
-    <div class="form-group">
-        <label for="imageUrl">Зображення товару</label>
-        <input id="imageUrl" type="text" class="form-control" ngModel name="imageUrl" required #imageUrl="ngModel" placeholder="http://example.com">
-    </div>
-    
-    <div class="form-group">
-        <label for="category">Категорія</label>
-        <select id="category" type="text" class="form-control" (change)="selectFilter($event)" ngModel name="category" required #category="ngModel">
-        <option value="" [class.active]="viewMode == 'empty'"></option>
-        <option [(value)]="item.$key" [class.active]="viewMode == 'select'"
-            *ngFor="let item of categories$ | async" >{{ item.name }}</option>  
-        </select>
-    </div>
-    
-    <div [ngSwitch]="viewMode">
-        <p *ngSwitchCase = "'empty'">empty</p>
-        <div *ngSwitchCase = "'phone'">
+<div class="row">
+    <div class="col-md-6">
+        <form #f="ngForm" (ngSubmit)="saveProduct(f.value)">
+            <div class="form-group">
+                <label for="Title">Назва товару</label>
+                <input id="title" type="text" class="form-control" 
+                    [(ngModel)]="product.title" name="title" required #title="ngModel">
+                <div class="alert alert-danger" *ngIf="title.touched && title.invalid">
+                    Назва обов'язкова
+                </div>
+            </div>
         
-        <div class="form-group">
-            <label for="category">Бренд</label>
-            <select id="brand" type="text" class="form-control" ngModel name="brand" required #brand="ngModel">
+            <label for="price">Ціна</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>
+                <input id="price" type="number" class="form-control" 
+                    aria-label="Amount (to the nearest dollar)" [(ngModel)]="product.price" name="price" 
+                    required #price="ngModel" [min]="1">
+                <div class="input-group-append">
+                    <span class="input-group-text">.00</span>
+                </div>
+            </div>
+            <div class="alert alert-danger" *ngIf="price.touched && price.invalid">
+                <div *ngIf="price.errors.required">Ціна обов'язкова</div>
+                <div *ngIf="price.errors.min">Ціна не менше 1 грн</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="imageUrl">Зображення товару</label>
+                <input id="imageUrl" type="text" class="form-control" 
+                    [(ngModel)]="product.imageUrl" name="imageUrl" required #imageUrl="ngModel" 
+                    placeholder="http://example.com" url>
+            <div *ngIf="imageUrl.touched && imageUrl.invalid">
+                <p *ngIf="imageUrl.errors.url" style="color:red">Адреса зображення некоректна</p>
+            </div>
+                    
+                
+            </div>
+            
+            <div class="form-group">
+                <label for="category">Категорія</label>
+                <select id="category" type="text" class="form-control" (change)="selectCategoryFilter($event)" [(ngModel)]="product.category" name="category" required #category="ngModel">
                 <option value="" [class.active]="viewMode == 'empty'"></option>
-                <option value="{{ item.brand }}" 
-                    *ngFor="let item of categories$ | async" >{{ item.brand }}</option>  
-            </select>
-        </div>
-    
+                <option [(value)]="item.$key" [class.active]="viewMode == 'select'"
+                    *ngFor="let item of categories$ | async" >{{ item.name }}</option>  
+                </select>
+                <div class="alert alert-danger" *ngIf="category.touched && category.invalid">
+                    Категорія обов'язкова
+                </div>
+            </div>
+            
+            <div [ngSwitch]="viewMode">
+                <p *ngSwitchCase = "'empty'">empty</p>
+                <div *ngSwitchCase = "'phone'">
+                
+                <div class="form-group">
+                    <label for="category">Бренд</label>
+                    <select id="brand" type="text" class="form-control" [(ngModel)]="product.brand" name="brand" required #brand="ngModel">
+                        <option value="" [class.active]="viewMode == 'empty'"></option>
+                        <option value="{{ item.brand }}" 
+                            *ngFor="let item of categories$ | async" >{{ item.brand }}</option>  
+                    </select>
+                </div>
+            
+                </div>
+            </div>
+            
+            <button class="btn btn-primary">Зберегти</button>
+            <button type="button" (click)="deleteProduct()" class="btn btn-danger">Видалити</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <div class="card" style="width: 25rem;">
+            <img class="card-img-top" [src]="product.imageUrl" *ngIf="product.imageUrl">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.title }}</h5>
+                <p class="card-text">{{ product.price }}</p>
+            </div>
         </div>
     </div>
-    
-    <button class="btn btn-primary">Зберегти</button>
-</form>
+</div>
+
